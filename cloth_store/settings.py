@@ -32,7 +32,7 @@ SECRET_KEY= os.environ.get('SECRETE_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cloth-flossy.herokuapp.com']
 
 
 # Application definition
