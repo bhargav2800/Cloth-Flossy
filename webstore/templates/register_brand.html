@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Animated Login Form</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'style/style.css' %}"
+    />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body style="background: linear-gradient(135deg, #71b7e6, #9b59b6); height: 100vh; margin-top:150px;">
+  {% if messages %}
+        {% for message in messages %}
+            <div class="container p-0">
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="msg">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+    <div class="container container-register-user">
+      <div>
+        <span class="title">Registration</span>
+        <a class="btn btn-outline-success" href="{% url 'admin:index' %}" style="margin-left:1050px;">Login</a>
+      </div>
+      <div class="register-user-content">
+        <form class="form" action="" method="POST">
+          {% csrf_token %}
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Admin name</span>
+              {{ form_c.username }}
+            </div>
+            <div class="input-box">
+              <span class="details">Admin email</span>
+              {{ form_c.email }}
+            </div>
+            <div class="input-box">
+              <span class="details">Admin password</span>
+              {{ form_c.password1 }}
+            </div>
+            <div class="input-box">
+              <span class="details">Confirm password</span>
+              {{ form_c.password2 }}
+            </div>
+            <div class="input-box">
+              <span class="details">Brand name</span>
+              {{ form_u.brand_name }}
+            </div>
+          </div>
+          <button class="btn btn--main" type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{%  static 'js/main.js' %}"></script>
+  </body>
+</html>

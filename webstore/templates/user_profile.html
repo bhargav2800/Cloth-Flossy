@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+    <div class="container p-0">
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="msg">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+{% endfor %}
+
+{% endif %}
+    <div class="form-content">
+        <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="user-details">
+                <div class="input-box">
+                  <span class="details">Email</span>
+                  {{ form_u.email }}
+                </div>
+                <div class="input-box">
+                  <span class="details">Name</span>
+                  {{ form_u.name }}
+                </div>
+                <div class="input-box">
+                  <span class="details">Age</span>
+                  {{ form_u.age }}
+                </div>
+                <div class="input-box">
+                  <span class="details">Gender</span>
+                  {{ form_u.gender }}
+                </div>
+                <div class="input-box">
+                  <span class="details">Mobile No</span>
+                  {{ form_u.mobile_no }}
+                </div>
+              </div>
+            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+        </form>
+    </div>
+{% endblock content %}
