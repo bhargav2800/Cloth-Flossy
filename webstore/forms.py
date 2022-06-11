@@ -11,6 +11,11 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserUpdateForm_customer(ModelForm):
     class Meta:
         model = Customer
+        fields = ['name','age','gender','mobile_no']
+
+class UserProfile_Form(ModelForm):
+    class Meta:
+        model = Customer
         fields = ['email','name','age','gender','mobile_no']
 
 

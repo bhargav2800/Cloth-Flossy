@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from .forms import MyUserCreationForm,MyUserUpdateForm_customer,MyBrandUpdateForm_Brand
+from .forms import MyUserCreationForm,MyUserUpdateForm_customer,MyBrandUpdateForm_Brand,UserProfile_Form
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -105,17 +105,16 @@ def home(request):
 def user_profile(request):
     current_user = request.user
     current_user_info = Customer.objects.filter(user=current_user).first()
-    form_u = MyUserUpdateForm_customer(instance=current_user_info)
+    form_u = UserProfile_Form(instance=current_user_info)
 
 
     if request.method == 'POST':
-        form_u = MyUserUpdateForm_customer(request.POST, instance=current_user_info)
+        form_u = UserProfile_Form(request.POST, instance=current_user_info)
         if form_u.is_valid():
             updated_email = form_u.cleaned_data['email']
             form_c = current_user
             form_c.email = updated_email
             form_c.save()
-
             form_u.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect('user-profile')
