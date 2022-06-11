@@ -27,7 +27,8 @@ def register_customer(request):
             user_c.save()
             user_u.save()
             login(request, user_c)  #login user
-            messages.success(request, f'Your account has been created! You are now able to login')
+            messages.success(request, f'Your account has been created Successfully!')
+            messages.success(request, f'You are logged In ')
             return redirect('home') # Redirect to home_page
         else:
             messages.error(request, 'An error occured during registration')
@@ -106,7 +107,6 @@ def user_profile(request):
     current_user = request.user
     current_user_info = Customer.objects.filter(user=current_user).first()
     form_u = UserProfile_Form(instance=current_user_info)
-
 
     if request.method == 'POST':
         form_u = UserProfile_Form(request.POST, instance=current_user_info)
