@@ -71,8 +71,8 @@ class Customer(models.Model):
     gender = models.CharField(max_length=10, choices=gender_choices, default='F')
     email = models.EmailField(max_length=50, unique=True)
     mobile_no = models.CharField(max_length=12, unique=True)
-    fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', blank=True)
-    wishlist = models.ManyToManyField(Product, related_name='wishlist', blank=True)
+    # fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', blank=True)
+    # wishlist = models.ManyToManyField(Product, related_name='wishlist', blank=True)
 
     def __str__(self):
         return self.email
@@ -104,3 +104,12 @@ class Invoice(models.Model):
     #     pass
     # product = models.ForeignKey(Product, on_delete=models.SET_DEFAULT,  default=default_productname)
     product_quantity = models.IntegerField()
+
+class Favourites(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+
+
+class WishList(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
