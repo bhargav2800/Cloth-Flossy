@@ -1,14 +1,12 @@
 from pyexpat.errors import messages
 from django.contrib import admin
-from .models import User,Customer,Brand,Category,Product,Favourites,Wishlist,Reviews,Cart,Order,Invoice
+from .models import User,Customer,Brand,Category,Product,Reviews,Cart,Order,Invoice
 
 # Register your models here.
 admin.site.register(User)
 admin.site.register(Customer)
 admin.site.register(Category)
 
-admin.site.register(Favourites)
-admin.site.register(Wishlist)
 admin.site.register(Reviews)
 admin.site.register(Cart)
 admin.site.register(Order)

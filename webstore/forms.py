@@ -1,5 +1,5 @@
 from django.forms import  ModelForm
-from .models import Brand, Customer, User, Favourites
+from .models import Brand, Customer, User
 from django.contrib.auth.forms import UserCreationForm
 
 class MyUserCreationForm(UserCreationForm):
@@ -16,7 +16,7 @@ class MyUserUpdateForm_customer(ModelForm):
 class UserProfile_Form(ModelForm):
     class Meta:
         model = Customer
-        fields = ['email','name','age','gender','mobile_no']
+        fields = ['email','name','age','gender','mobile_no','fav_brands']
 
 
 

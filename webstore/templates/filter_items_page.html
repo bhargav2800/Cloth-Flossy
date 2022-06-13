@@ -2,11 +2,10 @@
 {% load static %}
 
 {% block content %}
-<section class="product">
-    <h2 class="product-category">best selling</h2>
-    <button class="pre-btn"><img src="{% static 'images/arrow.png' %}" alt=""></button>
-    <button class="nxt-btn"><img src="{% static 'images/arrow.png' %}" alt=""></button>
-    <div class="product-container">
+
+<section class="search-results">
+    <h2 class="heading">search results for <span>product</span></h2>
+    <div class="product-container-filter">
         <div class="product-card">
             <div class="product-image">
                 <span class="discount-tag">50% off</span>
@@ -156,24 +155,7 @@
         </div>
     </div>
 </section>
-<br>
-<section class="collection-container">
-    <a href="#" class="collection">
-        <img src="{% static 'images/women_collection.png' %}" alt="">
-        <p class="collection-title">women <br> apparels</p>
-    </a>
-    <a href="#" class="collection">
-        <img src="{% static 'images/men_collection.png' %}" alt="">
-        <p class="collection-title">men <br> apparels</p>
-    </a>
-    <a href="#" class="collection">
-        <img src="{% static 'images/accessories_collection.png' %}" alt="">
-        <p class="collection-title">accessories</p>
-    </a>
-</section>
 
 <footer></footer>
 <script src="{% static 'js/footer.js' %}"></script>
-<script src="{% static 'js/home.js' %}"></script>
-
 {% endblock content %}

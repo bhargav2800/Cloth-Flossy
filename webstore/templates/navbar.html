@@ -3,7 +3,7 @@
 <header class="">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="#">ClothFlossy</a>
+      <a class="navbar-brand" href="{% url 'home' %}">ClothFlossy</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -73,7 +73,7 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a></li>
               <li><a class="dropdown-item" href="{% url 'login-user' %}">Login</a></li>
-              <li><a class="dropdown-item" href="{% url 'logout-user' %}"/>Logout</li>
+              <li><a class="dropdown-item" href="{% url 'logout-user' %}"/>Logout</li>              
               <li><a class="dropdown-item" href="{% url 'register-brand' %}">Seller Registration</a></li>
             </ul>
         </li>

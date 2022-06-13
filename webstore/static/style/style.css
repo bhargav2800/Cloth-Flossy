@@ -238,6 +238,7 @@ body{
 	font-weight: 500;
 	position: relative;
   }
+  
   .container-register-user .title::before{
 	content: "";
 	position: absolute;
@@ -268,7 +269,7 @@ body{
 
   .register-user-content .user-details .input-box input{
 	height: 45px;
-	width: 100%;
+	width: 95%;
 	outline: none;
 	font-size: 16px;
 	border-radius: 5px;
@@ -280,7 +281,7 @@ body{
 
   .register-user-content .user-details .input-box select{
 	height: 45px;
-	width: 100%;
+	width: 95%;
 	outline: none;
 	font-size: 16px;
 	border-radius: 5px;
@@ -336,4 +337,7 @@ body{
 	.register-user-content form .user-details::-webkit-scrollbar{
 	  width: 5px;
 	}
-	}
+}
+
+
+

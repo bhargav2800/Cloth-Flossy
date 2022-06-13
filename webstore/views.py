@@ -4,11 +4,15 @@ from .forms import MyUserCreationForm,MyUserUpdateForm_customer,MyBrandUpdateFor
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, User,Customer
+from .models import Product, User, Customer, Brand
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 # Create your views here.
 def register_customer(request):
@@ -107,7 +111,6 @@ def user_profile(request):
     current_user = request.user
     current_user_info = Customer.objects.filter(user=current_user).first()
     form_u = UserProfile_Form(instance=current_user_info)
-
     if request.method == 'POST':
         form_u = UserProfile_Form(request.POST, instance=current_user_info)
         if form_u.is_valid():
@@ -123,3 +126,11 @@ def user_profile(request):
             return redirect('user-profile')
 
     return render(request, 'user_profile.html', {'form_u':form_u})
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('profile-user')
+
+def Product_details(request):
+    return render(request, 'filter_items_page.html')

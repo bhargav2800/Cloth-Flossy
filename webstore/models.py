@@ -34,27 +34,19 @@ class User(AbstractUser):
         user = request.user
         return qs if user.is_staff else qs.filter(id=user.id)
 
-class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30)
-    age = models.IntegerField()
-    gender = models.CharField(max_length=10, choices=gender_choices, default='F')
-    email = models.EmailField(max_length=50, unique=True)
-    mobile_no = models.CharField(max_length=12, unique=True)
-
-    def __str__(self):
-        return self.email
-
-
 class Brand(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     brand_name = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.brand_name
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
@@ -68,17 +60,23 @@ class Product(models.Model):
     no_of_purchases = models.IntegerField()
     product_size = models.CharField(max_length=10, choices=size_choices, default='XS')
 
-
-class Favourites(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
-class Wishlist(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=10, choices=gender_choices, default='F')
+    email = models.EmailField(max_length=50, unique=True)
+    mobile_no = models.CharField(max_length=12, unique=True)
+    fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', blank=True)
+    wishlist = models.ManyToManyField(Product, related_name='wishlist', blank=True)
 
-
+    def __str__(self):
+        return self.email
+        
 class Reviews(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

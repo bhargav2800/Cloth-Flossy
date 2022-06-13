@@ -1,44 +1,68 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% load crispy_forms_tags %}
-{% block content %}
+{% block content %} 
 {% if messages %}
 {% for message in messages %}
-    <div class="container p-0">
-      <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="msg">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    </div>
-{% endfor %}
+{% endfor %} {% endif %}
+<div class="container-profile">
+<div class="container container-profile-user">
+  <div>
+    <span class="title">Profile Update</span>
+    <a class="btn btn-outline-success input-box" href="{% url 'password-change' %}" style="margin-left: 800px; width:20%;">Change Password</a>
+  </div>
 
-{% endif %}
+  <div class="profile-user-content">
     <div class="form-content">
-        <form class="form" action="" method="POST">
-            {% csrf_token %}
-            <div class="user-details">
-                <div class="input-box">
-                  <span class="details">Email</span>
-                  {{ form_u.email }}
-                </div>
-                <div class="input-box">
-                  <span class="details">Name</span>
-                  {{ form_u.name }}
-                </div>
-                <div class="input-box">
-                  <span class="details">Age</span>
-                  {{ form_u.age }}
-                </div>
-                <div class="input-box">
-                  <span class="details">Gender</span>
-                  {{ form_u.gender }}
-                </div>
-                <div class="input-box">
-                  <span class="details">Mobile No</span>
-                  {{ form_u.mobile_no }}
-                </div>
-              </div>
-            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
-        </form>
+      <form class="form" action="" method="POST">
+        {% csrf_token %}
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Email</span>
+            {{ form_u.email }}
+          </div>
+          <div class="input-box">
+            <span class="details">Name</span>
+            {{ form_u.name }}
+          </div>
+          <div class="input-box">
+            <span class="details">Age</span>
+            {{ form_u.age }}
+          </div>
+          <div class="input-box">
+            <span class="details">Gender</span>
+            {{ form_u.gender }}
+          </div>
+          <div class="input-box">
+            <span class="details">Mobile No</span>
+            {{ form_u.mobile_no }}
+          </div>
+          <div class="input-box">
+            <span class="details">Favorite Brands</span>
+            {{ form_u.fav_brands }}
+          </div>
+
+          {% comment %} <div class="input-box">
+            <span class="details">Favorite Brands</span>
+            <select id="fav_brand_list" multiple>
+                {% for brand in brand_lst %}
+                    <option value="{{ brand.brand_name }}">{{ brand.brand_name }}</option>
+                {% endfor %}
+            </select>
+          </div> {% endcomment %}
+        </div>
+        <div class="Profile_buttons">
+            <div class="input-box"><span><button type="submit" class="btn btn-primary">Save Changes</button></span></div>
+            <div class="input-box"><span><button type="reset" class="btn btn-primary">Reset</button></span></div>
+        <div>
+      </form>
     </div>
+  </div>
+</div>
+</div>
+<script>
+  mobiscroll.select('#fav_brand_list', {
+      inputElement: document.getElementById('brand_input'),
+      touchUi: false
+  });
+</script>
 {% endblock content %}
