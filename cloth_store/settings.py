@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['cloth-flossy.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'product.apps.ProductConfig',
     'webstore.apps.WebstoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'phonenumber_field',
 ]
 
 AUTH_USER_MODEL = 'webstore.User'
@@ -65,7 +67,7 @@ ROOT_URLCONF = 'cloth_store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +78,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
 ]
 
 WSGI_APPLICATION = 'cloth_store.wsgi.application'
@@ -117,8 +123,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-]
+    {'NAME': 'webstore.validators.UppercaseValidator', },
+    {'NAME': 'webstore.validators.LowercaseValidator', },
+    {'NAME': 'webstore.validators.SpecialcharValidator', },
+    {'NAME': 'webstore.validators.NumericValidator', },
 
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -156,5 +166,15 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
  }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# For Below Cridentinal  i have created a Envrionment to store that Variable and values
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 django_on_heroku.settings(locals())

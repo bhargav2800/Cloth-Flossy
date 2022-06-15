@@ -1,10 +1,12 @@
+from multiprocessing import context
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import MyUserCreationForm,MyUserUpdateForm_customer,MyBrandUpdateForm_Brand,UserProfile_Form
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, User, Customer, Brand
+from .models import User, Customer
+from product.models import Brand,Favourites
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -35,10 +37,19 @@ def register_customer(request):
             messages.success(request, f'You are logged In ')
             return redirect('home') # Redirect to home_page
         else:
-            messages.error(request, 'An error occured during registration')
+            if form_c.errors:
+                for i in form_c.errors.as_data():
+                    messages.error(request, form_c.errors.as_data()[i][0].message)
+            elif form_u.errors:
+                for i in form_u.errors.as_data():
+                    messages.error(request,form_u.errors.as_data()[i][0].message)
+            else:
+                print("Some Internal issue")
+
+            # messages.error(request, form_u.brand_name.errors)
             return redirect('register-user')
 
-    return render(request, 'register_customer.html', {'form_c':form_c, 'form_u':form_u})
+    return render(request, 'webstore/register_customer.html', {'form_c':form_c, 'form_u':form_u})
 
 
 def register_brand(request):
@@ -57,16 +68,25 @@ def register_brand(request):
             user_u.user = user_c
             user_u.email = user_c.email
             user_c.save()
-            my_group = Group.objects.get(name='brand_permission') 
+            my_group = Group.objects.get(name='brand_permission')
             my_group.user_set.add(user_c)
             user_u.save()
             login(request, user_c) # make login brand_Admin
             return redirect(reverse('admin:index')) # Redirect to admin panel
         else:
-            messages.error(request, 'An error occured during registration')
+            if form_c.errors:
+                for i in form_c.errors.as_data():
+                    messages.error(request, form_c.errors.as_data()[i][0].message)
+            elif form_u.errors:
+                print(form_u.errors.as_json)
+                for i in form_u.errors.as_data():
+                    messages.error(request,form_u.errors.as_data()[i][0].message)
+            else:
+                print("Some Internal issue")
+
             return redirect('register-brand')
 
-    return render(request, 'register_brand.html', {'form_c':form_c, 'form_u':form_u})
+    return render(request, 'webstore/register_brand.html', {'form_c':form_c, 'form_u':form_u})
 
 
 def loginPage(request):
@@ -75,7 +95,7 @@ def loginPage(request):
     #     return HttpResponse("You Are On Home Page")
 
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
         try:
@@ -89,12 +109,12 @@ def loginPage(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Invalid Username or password!')
+            messages.error(request, 'Invalid password!')
             return redirect('login-user')
 
 
     context = {}
-    return render(request, 'login_customer.html', context)
+    return render(request, 'webstore/login_customer.html', context)
 
 
 def logoutUser(request):
@@ -102,17 +122,21 @@ def logoutUser(request):
     return redirect('home')
 
 
-def home(request):
-    context = {}
-    return render(request, 'home.html', context)
-
 @login_required(login_url='login-user')
 def user_profile(request):
     current_user = request.user
     current_user_info = Customer.objects.filter(user=current_user).first()
     form_u = UserProfile_Form(instance=current_user_info)
+    brands_lst = Brand.objects.values_list('brand_name', flat=True)
+    brands_fav = []
+    for ins in Favourites.objects.filter(customer = current_user_info):
+        brands_fav += [ins.brand.brand_name]
     if request.method == 'POST':
-        form_u = UserProfile_Form(request.POST, instance=current_user_info)
+        Favourites.objects.filter(customer = current_user_info).delete()
+        form_u = UserProfile_Form(request.POST, request.FILES, instance=current_user_info)
+        fav_brand_lst = request.POST.getlist('fav_brand_select')
+        for i in fav_brand_lst:
+            Favourites.objects.create(customer = current_user_info, brand = Brand.objects.filter(brand_name=i).first())
         if form_u.is_valid():
             updated_email = form_u.cleaned_data['email']
             form_c = current_user
@@ -122,15 +146,17 @@ def user_profile(request):
             messages.success(request, 'Your profile is updated successfully')
             return redirect('user-profile')
         else:
-            messages.error(request, 'Please Enter Valid input!')
+            if form_u.errors:
+                print(form_u.errors.as_json)
+                for i in form_u.errors.as_data():
+                    messages.error(request,form_u.errors.as_data()[i][0].message)
+            else:
+                print("Some Internal issue")
             return redirect('user-profile')
 
-    return render(request, 'user_profile.html', {'form_u':form_u})
+    return render(request, 'webstore/user_profile.html', {'form_u':form_u,'brands_lst':brands_lst,'brands_fav':brands_fav,'profile_url':current_user_info.avatar.url})
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'change_password.html'
+    template_name = 'webstore/change_password.html'
     success_message = "Successfully Changed Your Password"
-    success_url = reverse_lazy('profile-user')
-
-def Product_details(request):
-    return render(request, 'filter_items_page.html')
+    success_url = reverse_lazy('user-profile')

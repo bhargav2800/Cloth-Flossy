@@ -1,0 +1,74 @@
+{% extends "product/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %} 
+{% if messages %}
+{% for message in messages %}
+{% endfor %} {% endif %}
+<div class="container-profile">
+<div class="container container-profile-user">
+  <div>
+    <span class="title">Profile Update</span>
+    <a class="btn btn-outline-success input-box" href="{% url 'password-change' %}" style="margin-left: 800px; width:20%;">Change Password</a>
+  </div>
+
+  <div class="profile-user-content">
+    <div class="form-content">
+      <form class="form" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Email</span>
+            {{ form_u.email }}
+          </div>
+          <div class="input-box">
+            <span class="details">Name</span>
+            {{ form_u.name }}
+          </div>
+          <div class="input-box">
+            <span class="details">Age</span>
+            {{ form_u.age }}
+          </div>
+          <div class="input-box">
+            <span class="details">Gender</span>
+            {{ form_u.gender }}
+          </div>
+          <div class="input-box">
+            <span class="details">Mobile No</span>
+            {{ form_u.mobile_no }}
+          </div>
+
+          <div class="input-box">
+            <span class="details">Favorite Brands</span>
+            <select name="fav_brand_select" id="fav_brand_list" multiple>
+                {% for brand in brands_lst %}
+                  {% if brand in brands_fav %}
+                    <option value="{{ brand }}" selected>{{ brand }}</option>
+                  {% else %}
+                    <option value="{{ brand }}">{{ brand }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+          </div>
+          <div class="input-box">
+            <span class="details">Profile Image</span>
+            <img src="{{ profile_url }}" style="clip-path: circle();" width=200px>
+            {{ form_u.avatar }}
+          </div>
+          
+        </div>
+        <div class="Profile_buttons">
+            <div class="input-box"><span><button type="submit" class="btn btn-primary">Save Changes</button></span></div>
+            <div class="input-box"><span><button type="reset" class="btn btn-primary">Reset</button></span></div>
+        <div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  mobiscroll.select('#fav_brand_list', {
+      inputElement: document.getElementById('brand_input'),
+      touchUi: false
+  });
+</script>
+{% endblock content %}
