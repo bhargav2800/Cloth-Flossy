@@ -4,20 +4,24 @@
 {% block content %}
 
 <section class="product-details">
-    <div class="image-slider" style="background-image: url('../static/images/product_image_1.png');">
+    <div class="image-slider" style="background-image: url('{{ object.image.url }}');">
         <div class="product-images">
-            <img src="{% static 'images/product_image_1.png' %}" class="active" alt="">
-            <img src="{% static 'images/product_image_2.png' %}" alt="">
-            <img src="{% static 'images/product_image_3.png' %}" alt="">
-            <img src="{% static 'images/product_image_4.png' %}" alt="">
+            <img src="{{ object.image.url }}" class="active" alt="">
+            <img src="{{ object.image.url }}" alt="">
+            <img src="{{ object.image.url }}" alt="">
+            <img src="{{ object.image.url }}" alt="">
         </div>
     </div>
     <div class="details">
-        <h2 class="product-brand">calvin klein</h2>
+        <h2 class="product-brand">{{ object.brand }}</h2>
         <p class="product-short-des">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-        <span class="product-price">$99</span>
-        <span class="product-actual-price">$200</span>
-        <span class="product-discount">( 50% off )</span>
+        {% if object.discount > 0 %}
+            <span class="product-price">Rs. {{ object.discount_price }}</span>
+            <span class="product-actual-price">Rs. {{ object.price }}</span>
+            <span class="product-discount">{{ object.discount }}% off )</span>
+        {% else %}
+            <span class="product-price">Rs. {{ object.price }}</span>
+        {% endif %}
 
         <p class="product-sub-heading">select size</p>
 
@@ -32,14 +36,14 @@
         <input type="radio" name="size" value="xxl" hidden id="xxl-size">
         <label for="xxl-size" class="size-radio-btn">xxl</label>
 
-        <button class="btn cart-btn">add to cart</button>
-        <button class="btn">add to wishlist</button>
+        <a href="{% url 'add_to_cart' object.id %}"><button class="btn cart-btn btn-outline-secondary">add to cart</button></a>
+        <a href="{% url 'add_to_wishlist' object.id %}"><button class="btn btn-outline-secondary">add to wishlist</button></a>
     </div>
 </section>
 
 <section class="detail-des">
     <h2 class="heading">description</h2>
-    <p class="des">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ......</p>
+    <p class="des">{{ object.description }}</p>
 </section>
 
 <script src="{% static 'js/home.js' %}"></script>

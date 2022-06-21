@@ -5,9 +5,9 @@ size_choices = (
     ("XS", "XS"),
     ("S", "S"),
     ("M", "M"),
-    ("L","L"),
-    ("XL","XL"),
-    ("XXL","XXL"),
+    ("L", "L"),
+    ("XL", "XL"),
+    ("XXL", "XXL"),
 )
 
 payment_choices = (
@@ -16,6 +16,11 @@ payment_choices = (
     ("Debit Card", "Debit Card"),
     ("Credit Card", "Credit Card")
 )
+
+gender_choice = (
+    ("Men", "Men"),
+    ("Women", "Women"),
+    ("Kids", "Kids"))
 
 
 # Create your models here.
@@ -40,10 +45,14 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     price = models.FloatField()
     image = models.ImageField()
-    discount = models.FloatField()
+    discount = models.IntegerField()
     description = models.TextField()
     no_of_purchases = models.IntegerField()
     product_size = models.CharField(max_length=10, choices=size_choices, default='XS')
+    Target_audience = models.CharField(max_length=10, choices=gender_choice, default='Men')
+
+    def discount_price(self):
+        return "{:.2f}".format(self.price - ((self.price * self.discount)/100))
 
     def __str__(self):
         return self.name
@@ -59,6 +68,13 @@ class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     added_quantity = models.IntegerField()
 
+    @property
+    def get_total(self):
+        total = float(self.product.discount_price()) * self.added_quantity
+        return total
+
+
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
@@ -66,13 +82,12 @@ class Order(models.Model):
     total_amount = models.FloatField()
     payment_method = models.CharField(max_length=30, choices=payment_choices, default='Cash On Delivery')
 
+    def __str__(self):
+        return f"{self.id}     {self.customer.user}"
+
 class Invoice(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    # def default_productname():
-    #     # Query to get producct name
-    #     pass
-    # product = models.ForeignKey(Product, on_delete=models.SET_DEFAULT,  default=default_productname)
+    product = models.ForeignKey(Product, on_delete=models.SET_DEFAULT, default=0)
     product_quantity = models.IntegerField()
 
 class Favourites(models.Model):

@@ -34,7 +34,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['cloth-flossy.herokuapp.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [

@@ -1,0 +1,100 @@
+{#{% load static %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<!--divinectorweb.com-->#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Responsive Shopping Cart design</title>#}
+{#    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">#}
+{#    <link#}
+{#      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"#}
+{#      rel="stylesheet"#}
+{#      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"#}
+{#      crossorigin="anonymous"#}
+{#    />#}
+{#	<link href="{% static 'style/cart.css' %}" rel="stylesheet">#}
+{#</head>#}
+{#<body>#}
+{#    {% if messages %}#}
+{#    {% for message in messages %}#}
+{#    <div class="container p-0">#}
+{#      <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="msg">#}
+{#        {{ message }}#}
+{#        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>#}
+{#      </div>#}
+{#    </div>#}
+{#    {% endfor %}#}
+{#    {% endif %}#}
+{#    <div class="wrapper">#}
+{#		<h1>Wishlist</h1>#}
+{#		<div class="project">#}
+{#                <div class="shop">#}
+{#                    {% for item in products %}#}
+{#                    <div class="box">#}
+{#                        <img src="{{ item.product.image.url }}">#}
+{#                        <div class="content">#}
+{#                            <h3>{{ item.product.name }}</h3>#}
+{#                            <h4>Price: Rs. {{ item.product.price }}</h4>#}
+{#                            <a href="{% url 'add_to_cart' item.product.id %}"><p class="btn-area" style="margin-bottom: 50px;"><span class="btn2">Add to Cart</span></p></a>#}
+{#                            <a href="{% url 'remove_from_wishlist' item.product.id %}"><p class="btn-area"><i aria-hidden="true" class="fa fa-trash"></i> <span class="btn2">Remove</span></p></a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#		</div>#}
+{#	</div>#}
+{#<script#}
+{#      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"#}
+{#      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"#}
+{#      crossorigin="anonymous"></script>#}
+{#</body>#}
+{#</html>#}
+
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+<section class="h-100" style="background-color: #eee;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Your WishList</h3>
+        </div>
+        {% for item in products %}
+        <div class="card rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img
+                  src="{{ item.product.image.url }}"
+                  class="img-fluid rounded-3" alt="Image Not Loaded">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">{{ item.product.name }}</p>
+                <p>Short Line Discription..</p>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 class="mb-0">Rs. {{ item.product.discount_price }}</h5>
+              </div>
+
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end" data-mdb-toggle="tooltip"
+                  title="Add to Cart">
+                <a href="{% url 'add_to_cart' item.product.id %}" class="text-danger"><i class="fas fa-cart-arrow-down fa-lg"></i></a>
+              </div>
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end" data-mdb-toggle="tooltip"
+                  title="Remove item">
+                <a href="{% url 'remove_from_wishlist' item.product.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</section>
+<footer></footer>
+<script src="{% static 'js/footer.js' %}"></script>
+{% endblock content %}

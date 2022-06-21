@@ -18,13 +18,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">MEN</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'target_audience' 'Men' %}">MEN</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">WOMEN</a>
+            <a class="nav-link" href="{% url 'target_audience' 'Women' %}">WOMEN</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">KIDS</a>
+            <a class="nav-link" href="{% url 'target_audience' 'Kids' %}">KIDS</a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -67,14 +67,19 @@
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                style = "margin-right:100px;"
               >
-              <img src="{% static 'images/avatar-1.svg' %}" style="width:30px; height:30px"/>
+              <img src="{% static 'images/avatar-1.svg' %}" style="width:30px; height:30px;"/>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a></li>
                 <li><a class="dropdown-item" href="{% url 'logout-user' %}">Logout</a></li>
               </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_wishlist' %}"><img src="{% static 'images/love.png' %}" style="width:30px; height:30px"/></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_cart' %}"><img src="{% static 'images/cart.png' %}" style="width:30px; height:30px"/></a>
           </li>
           </ul>
         {% else %}

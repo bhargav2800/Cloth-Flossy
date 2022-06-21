@@ -30,9 +30,9 @@ class Customer(models.Model):
     gender = models.CharField(max_length=10, choices=gender_choices, default='F')
     email = models.EmailField(max_length=50, unique=True)
     mobile_no = PhoneNumberField(unique=True)
-    avatar = models.ImageField(null = True, default="avatar.svg", upload_to='profile_picture')
-    # fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', blank=True)
-    # wishlist = models.ManyToManyField(Product, related_name='wishlist', blank=True)
+    avatar = models.ImageField(null=True, default="avatar.svg", upload_to='profile_picture')
+    # fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', through='WishList' ,blank=True)
+    # wishlist = models.ManyToManyField(Product, related_name='wishlist',through='Favourites' ,blank=True)
 
     def __str__(self):
         return self.email

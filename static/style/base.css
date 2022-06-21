@@ -1,7 +1,5 @@
 
-
 /* For user_profile */
-
 
 .container-profile{
     font-family: 'Poppins', sans-serif;
@@ -327,6 +325,14 @@
 .pre-btn:hover img, .nxt-btn:hover img{
     opacity: 1;
 }
+
+
+
+/*Discount Section*/
+
+
+
+
 
 .collection-container{
     width: 100%;
