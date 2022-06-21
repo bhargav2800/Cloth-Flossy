@@ -49,7 +49,7 @@ class Product(models.Model):
     description = models.TextField()
     no_of_purchases = models.IntegerField()
     product_size = models.CharField(max_length=10, choices=size_choices, default='XS')
-    Target_audience = models.CharField(max_length=10, choices=gender_choice, default='Men')
+    target_audience = models.CharField(max_length=10, choices=gender_choice, default='Men')
 
     def discount_price(self):
         return "{:.2f}".format(self.price - ((self.price * self.discount)/100))

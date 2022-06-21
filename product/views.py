@@ -28,7 +28,7 @@ class product_page(ListView):
             return Product.objects.filter(category=category)
         except:
             target_audience = self.kwargs.get('target_audience')
-            return Product.objects.filter(Target_audience=target_audience)
+            return Product.objects.filter(target_audience=target_audience)
 
 
 class view_cart(ListView):
