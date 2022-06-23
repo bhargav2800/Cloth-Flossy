@@ -1,101 +1,197 @@
 {% load static %}
 
 <header class="">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">ClothFlossy</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'target_audience' 'Men' %}">MEN</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'target_audience' 'Women' %}">WOMEN</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'target_audience' 'Kids' %}">KIDS</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">ClothFlossy</a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
             >
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-        </ul>
-        
-        <form class="d-flex" method="GET" action="{%  url 'home' %}">
-          <input
-            name = 'q'
-            class="form-control me-2"
-            type="search"
-            placeholder="Search Here ..."
-            aria-label="Search"
-            method="GET"
-            action="{%  url 'home' %}"
-          />
-        </form>
-        {% if request.user.is_authenticated %}
-          <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-              <img src="{% static 'images/avatar-1.svg' %}" style="width:30px; height:30px;"/>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a></li>
-                <li><a class="dropdown-item" href="{% url 'logout-user' %}">Logout</a></li>
-              </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_wishlist' %}"><img src="{% static 'images/love.png' %}" style="width:30px; height:30px"/></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="{% url 'view_cart' %}"><img src="{% static 'images/cart.png' %}" style="width:30px; height:30px"/></a>
-          </li>
-          </ul>
-        {% else %}
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login-user' %}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register-user' %}">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register-brand' %}">Seller Account</a>
-          </li>
-        </ul>
-        {% endif %}
-      </div>
-    </div>
-  </nav>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'target_audience' 'Men' %}">MEN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'target_audience' 'Women' %}">WOMEN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'target_audience' 'Kids' %}">KIDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'faviorite_section' %}">FAVORITE BRANDS</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                        >
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <form class="d-flex" method="GET" action="{% url 'searched_product' %}">
+                    <input
+                            name='q'
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Search Here ..."
+                            aria-label="Search"
+                    />
+                </form>
+
+                {% if request.user.is_authenticated %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                Filter
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 235px;">
+                                    <div class="card">
+                                        <article class="filter-group">
+                                            <header class="card-header">
+                                                <h6 class="title">Product Category</h6>
+                                            </header>
+                                            <div class="card-body">
+                                                <ul class="list-menu">
+                                                    <li><a href="{% url 'product_page' 'kurtas' %}">Kurtas </a></li>
+                                                    <li><a href="{% url 'product_page' 'traditional' %}">Traditional </a></li>
+                                                    <li><a href="{% url 'product_page' 'saree' %}">Sarees </a></li>
+                                                    <li><a href="{% url 'product_page' 'bottomwear' %}">Bottomwear </a></li>
+                                                    <li><a href="{% url 'product_page' 'upperwear' %}">Upperwear </a></li>
+                                                </ul>
+
+                                            </div> <!-- card-body.// -->
+
+                                        </article> <!-- filter-group  .// -->
+                                        <form method="GET" action="{% url 'filter_product' %}">
+                                        <article class="filter-group">
+                                            <header class="card-header">
+                                                <h6 class="title">Price range </h6>
+                                            </header>
+                                            <div class="card-body">
+{#                                                <input type="range" class="custom-range" min="0" max="50000" name="range_price">#}
+                                                <div class="">
+                                                    <div class="col-md-8">
+                                                        <label>Min</label>
+                                                        <input class="form-control" min='0' placeholder="Rs. 0" type="number" name="min_price_range">
+                                                    </div>
+                                                    <div class="text-right col-md-8">
+                                                        <label>Max</label>
+                                                        <input class="form-control" placeholder="Rs. 1,00000" name="max_price_range" type="number">
+                                                    </div>
+                                                </div> <!-- form-row.// -->
+                                        </div><!-- card-body.// -->
+                                        </article> <!-- filter-group .// -->
+                                        <article class="filter-group">
+                                            <header class="card-header">
+                                                <h6 class="title">Sizes </h6>
+                                            </header>
+                                            <div class="card-body">
+                                                    <label class="checkbox-btn">
+                                                        <input type="checkbox" name="size_checks" value="XS">
+                                                        <span class="btn btn-light" style="width: 50px;"> XS </span>
+                                                    </label>
+
+                                                    <label class="checkbox-btn">
+                                                        <input type="checkbox" name="size_checks" value="S">
+                                                        <span class="btn btn-light" style="width: 50px;"> S </span>
+                                                    </label>
+
+                                                    <label class="checkbox-btn" name="size_checks" value="M">
+                                                        <input type="checkbox">
+                                                        <span class="btn btn-light" style="width: 50px;"> M </span>
+                                                    </label>
+
+                                                    <label class="checkbox-btn">
+                                                        <input type="checkbox" name="size_checks" value="L">
+                                                        <span class="btn btn-light" style="width: 60px;"> L </span>
+                                                    </label>
+
+                                                    <label class="checkbox-btn">
+                                                        <input type="checkbox" name="size_checks" value="XL">
+                                                        <span class="btn btn-light" style="width: 60px;"> XL </span>
+                                                    </label>
+
+                                                    <label class="checkbox-btn">
+                                                        <input type="checkbox" name="size_checks" value="XXL">
+                                                        <span class="btn btn-light" style="width: 60px;"> XXL </span>
+                                                    </label>
+
+                                            </div><!-- card-body.// -->
+                                        </article> <!-- filter-group .// -->
+                                        <button type="submit" class="btn btn-block btn-primary">Apply</button>
+                                        </form>
+                                    </div> <!-- card.// -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                <img src="{% static 'images/avatar-1.svg' %}" style="width:30px; height:30px;"/>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout-user' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_wishlist' %}"><img
+                                    src="{% static 'images/love.png' %}" style="width:30px; height:30px"/></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_cart' %}"><img src="{% static 'images/cart.png' %}"
+                                                                                  style="width:30px; height:30px"/></a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login-user' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register-user' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register-brand' %}">Seller Account</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 </header>

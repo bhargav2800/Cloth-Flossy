@@ -3,7 +3,7 @@ const createFooter = () => {
 
     footer.innerHTML = `
     <div class="footer-content">
-        <a class="navbar-brand" href="{% url 'home' %}" style="font-size:150px;font-family: 'Dancing Script', cursive;">ClothFlossy</a>
+        <a class="navbar-brand" href="#" style="font-size:150px;font-family: 'Dancing Script', cursive;">ClothFlossy</a>
         <div class="footer-ul-container">
             <ul class="category">
                 <li class="category-title">men</li>

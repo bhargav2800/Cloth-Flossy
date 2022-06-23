@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <section class="product">
-    <h2 class="product-category">best selling</h2>
+    <h2 class="product-category" style="margin-top: 25px; font-weight: bold; text-align: center; font-size: 40px; text-decoration: underline;">best selling</h2>
     <button class="pre-btn"><img src="{% static 'images/arrow.png' %}" alt=""></button>
     <button class="nxt-btn"><img src="{% static 'images/arrow.png' %}" alt=""></button>
     <div class="product-container">
@@ -30,8 +30,8 @@
 </section>
 
 {#Budget Buys Section#}
-<section class="budget-buy">
-    <h2 class="product-category">Budget Buys</h2>
+<section class="budget-buy"x>
+    <h2 class="product-category" style="margin-top: 40px; text-align: center; font-size: 40px; text-decoration: underline;">Budget Buys</h2>
     <div class="product-container-filter">
         <div class="product-card">
             <div class="product-image">
@@ -39,47 +39,43 @@
                 <button class="card-btn">add to whislist</button>
             </div>
             <div class="product-info">
-                <a href="#"><h2 class="product-brand">Kurtas</h2></a>
+                <a href="{% url 'product_page' 'kurtas' %}"><h2 class="product-brand">Kurtas</h2></a>
                 <p class="product-short-des">a short line about the cloth..</p>
             </div>
         </div>
         <div class="product-card">
             <div class="product-image">
                 <a href="{% url 'product_page' 'traditional' %}"><img src="{% static 'images/traditional.jpg' %}" class="product-thumb" alt=""></a>
-                <button class="card-btn">add to whislist</button>
             </div>
             <div class="product-info">
-                <a href="#"><h2 class="product-brand">Traditional</h2></a>
+                <a href="{% url 'product_page' 'traditional' %}"><h2 class="product-brand">Traditional</h2></a>
                 <p class="product-short-des">a short line about the cloth..</p>
             </div>
         </div>
         <div class="product-card">
             <div class="product-image">
                 <a href="{% url 'product_page' 'saree' %}"><img src="{% static 'images/saree.jpg' %}" class="product-thumb" alt=""></a>
-                <button class="card-btn">add to whislist</button>
             </div>
             <div class="product-info">
-                <a href="#"><h2 class="product-brand">SAREE</h2></a>
+                <a href="{% url 'product_page' 'saree' %}"><h2 class="product-brand">SAREE</h2></a>
                 <p class="product-short-des">a short line about the cloth..</p>
             </div>
         </div>
         <div class="product-card">
             <div class="product-image">
                 <a href="{% url 'product_page' 'bottomwear' %}"><img src="{% static 'images/bottomwear.webp' %}" class="product-thumb" alt=""></a>
-                <button class="card-btn">add to whislist</button>
             </div>
             <div class="product-info">
-                <a href="#"><h2 class="product-brand">BottomWear</h2></a>
+                <a href="{% url 'product_page' 'bottomwear' %}"><h2 class="product-brand">BottomWear</h2></a>
                 <p class="product-short-des">a short line about the cloth..</p>
             </div>
         </div>
         <div class="product-card">
             <div class="product-image">
                 <a href="{% url 'product_page' 'upperwear' %}"><img src="{% static 'images/card1.png' %}" class="product-thumb" alt=""></a>
-                <button class="card-btn">add to whislist</button>
             </div>
             <div class="product-info">
-                <a href="#"><h2 class="product-brand">UpperWear</h2></a>
+                <a href="{% url 'product_page' 'upperwear' %}"><h2 class="product-brand">UpperWear</h2></a>
                 <p class="product-short-des">a short line about the cloth..</p>
             </div>
         </div>

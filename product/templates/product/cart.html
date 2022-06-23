@@ -48,27 +48,29 @@
 
               <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
-                <div class="d-flex mb-4" style="max-width: 300px">
-                  <button class="btn btn-primary px-1 me-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                    <i class="fas fa-minus"></i>
-                  </button>
+                <form action="{{ item.product.id }}/" method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex mb-4" style="max-width: 300px">
+                      <button class="btn btn-primary px-1 me-2"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()" type="submit">
+                        <i class="fas fa-minus"></i>
+                      </button>
 
-                  <div class="form-outline">
-                    <input id="form1" min="0" name="quantity" value="{{ item.added_quantity }}" type="number" class="form-control" style="margin-top: 19px;"/>
-                      <label class="form-label" for="form1">Quantity</label>
-                  </div>
-
-                  <button class="btn btn-primary px-1 ms-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                    <i class="fas fa-plus"></i>
-                  </button>
+                      <div class="form-outline">
+                                    <input id="form1" min="1" name="quantity" value="{{ item.added_quantity }}" type="number" class="form-control" style="margin-top: 19px;" readonly/>
+                                    <label class="form-label" for="form1">Quantity</label>
+                      </div>
+                      <button class="btn btn-primary px-1 ms-2"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()" type="submit">
+                        <i class="fas fa-plus"></i>
+                      </button>
                 </div>
+                </form>
                 <!-- Quantity -->
 
                 <!-- Price -->
                   <p class="text-start text-md-center">
-                  <strong>Total amount : Rs. </strong><strong id="p_price{{ forloop.counter }}">{{ item.product.discount_price }}</strong>
+                  <strong>Total amount : Rs. </strong><strong id="p_price{{ forloop.counter }}">{{ item.get_total }}</strong>
                 </p>
                 <!-- Price -->
               </div>
