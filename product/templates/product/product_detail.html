@@ -14,37 +14,129 @@
     </div>
     <div class="details">
         <h2 class="product-brand">{{ object.brand }}</h2>
-        <p class="product-short-des">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+        <p class="product-short-des">{{ object.short_line }}</p>
         {% if object.discount > 0 %}
-            <span class="product-price">Rs. {{ object.discount_price }}</span>
-            <span class="product-actual-price">Rs. {{ object.price }}</span>
-            <span class="product-discount">{{ object.discount }}% off )</span>
+        <span class="product-price">Rs. {{ object.discount_price }}</span>
+        <span class="product-actual-price">Rs. {{ object.price }}</span>
+        <span class="product-discount">{{ object.discount }}% off</span>
         {% else %}
-            <span class="product-price">Rs. {{ object.price }}</span>
+        <span class="product-price">Rs. {{ object.price }}</span>
         {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <p class="product-sub-heading" style="margin-top: 25px; ">select Color</p>
+            <select class="form-select" aria-label="Default select example" style="width: 400px;" name="color_dropdown"
+                    id="color_drop_down">
+                <option selected>Chose Color</option>
+                {% for i in object.sub_products_set.all %}
+                {% ifchanged %}<option>{{ i.color }}</option>{% endifchanged %}
+                {% endfor %}
+            </select>
 
-        <p class="product-sub-heading">select size</p>
+            <p class="product-sub-heading">select size</p>
+            <select class="form-select" aria-label="Default select" style="width: 400px;" name="size_dropdown"
+                    id="size_drop_down">
+                <option id="XS" disabled>XS</option>
+                <option id="S" disabled>S</option>
+                <option id="M" disabled>M</option>
+                <option id="L" disabled>L</option>
+                <option id="XL" disabled>XL</option>
+                <option id="XXL" disabled>XXL</option>
+            </select>
 
-        <input type="radio" name="size" value="s" checked hidden id="s-size">
-        <label for="s-size" class="size-radio-btn check">s</label>
-        <input type="radio" name="size" value="m" hidden id="m-size">
-        <label for="m-size" class="size-radio-btn">m</label>
-        <input type="radio" name="size" value="l" hidden id="l-size">
-        <label for="l-size" class="size-radio-btn">l</label>
-        <input type="radio" name="size" value="xl" hidden id="xl-size">
-        <label for="xl-size" class="size-radio-btn">xl</label>
-        <input type="radio" name="size" value="xxl" hidden id="xxl-size">
-        <label for="xxl-size" class="size-radio-btn">xxl</label>
+            <button class="btn cart-btn btn-outline-secondary" formaction="{% url 'add_to_cart' object.id %}"
+                    type="submit">add to cart
+            </button>
+            <button class="btn btn-outline-secondary" type="submit" formaction="{% url 'add_to_wishlist' object.id %}">
+                add to wishlist
+            </button>
 
-        <a href="{% url 'add_to_cart' object.id %}"><button class="btn cart-btn btn-outline-secondary">add to cart</button></a>
-        <a href="{% url 'add_to_wishlist' object.id %}"><button class="btn btn-outline-secondary">add to wishlist</button></a>
+        </form>
+        <div style="text-align: left; margin-top: 30px;">
+            <h2 class="" style="font-size: xx-large">Product Description</h2>
+            <p class="des" style="font-size: large">{{ object.description }}</p>
+        </div>
     </div>
 </section>
 
-<section class="detail-des">
-    <h2 class="heading">description</h2>
-    <p class="des">{{ object.description }}</p>
+<section style="background-color: #e7effd;">
+    {# post_COmments#}
+    <div style="text-align: center; padding-top: 25px;">
+        <h2 class="" style="font-size: xx-large">Post Your Review Here</h2>
+    </div>
+    <div class="card-footer py-3 border-0 container" style="background-color: #f8f9fa; margin-top: 20px; width: 900px;">
+        <form method="POST" action="{% url 'add_review' object.id %}">
+            {% csrf_token %}
+            <div class="d-flex flex-start w-100">
+                <div class="form-outline w-100">
+                    <textarea class="form-control" id="textAreaExample" rows="4"
+                              style="background: #fff;" placeholder="Share Your Review ... "
+                              name="review_field"></textarea>
+                </div>
+            </div>
+            <div class="float-end mt-2 pt-1">
+                <button type="submit" class="btn btn-primary btn-large">Post</button>
+                <button type="reset" class="btn btn-outline-primary btn-large">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    {# Show Comments#}
+    <div class="container my-5 py-5 text-dark">
+
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-md-11 col-lg-9 col-xl-7">
+                <div style="text-align: center; margin-top: 25px; margin-bottom: 20px ">
+                    <h2 class="" style="font-size: xx-large">Product Reviews</h2>
+                </div>
+                {# start Forloop#}
+                {% for review_obj in object.reviews_set.all %}
+                <div class="d-flex flex-start mb-4">
+                    <img class="rounded-circle shadow-1-strong me-3"
+                         src="{{ review_obj.customer.avatar.url }}" alt="avatar" width="65"
+                         height="65"/>
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <div class="">
+                                <h5>{{ review_obj.customer.name }}</h5>
+                                <p class="small">{{ review_obj.date_added }}</p>
+                                <p>
+                                    {{ review_obj.review }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {# endfor#}
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
 </section>
+
+<script>
+   $("#color_drop_down").change(function (e) {
+        e.preventDefault();
+        var color = $(this).val()
+        var p_id = {{ object.id }}
+        // GET AJAX request
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'get_sizes' %}",
+            data: {'color':color, 'p_id':p_id},
+            success: function (response) {
+                    $('#size_drop_down').empty()
+                    $('#size_drop_down').append('<option id="XS" disabled>XS</option> <option id="S" disabled>S</option> <option id="M" disabled>M</option> <option id="L" disabled>L</option> <option id="XL" disabled>XL</option> <option id="XXL" disabled>XXL</option>')
+                    $.each(response.color_wise_size, function(key, value) {
+                        document.getElementById(value['size']).disabled = false;
+})
+                }
+        })
+});
+
+</script>
 
 <script src="{% static 'js/home.js' %}"></script>
 <script src="{% static 'js/product_detail.js' %}"></script>

@@ -1,7 +1,8 @@
+from django import forms
 from django.contrib import admin
 from django.forms import modelform_factory
 
-from .models import Brand,Category,Product,Reviews,Cart,Order,Invoice, Favourites, WishList
+from .models import Brand,Category,Product,Reviews,Cart,Order,Invoice, Favourites, WishList, sub_products
 
 # Register your models here.
 admin.site.register(Category)
@@ -55,6 +56,28 @@ class Product_Modify(admin.ModelAdmin):
             return super().get_queryset(request)
 
 admin.site.register(Product, Product_Modify)
+
+
+class SubProductAdminForm(forms.BaseModelFormSet):
+    class Meta:
+        model = sub_products
+        fields = "__all__"
+
+@admin.register(sub_products)
+class ProductSubModify(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        if request.user.is_staff and not request.user.is_superuser:
+            form = super().get_form(request, obj, **kwargs)
+            form.base_fields["product"]._queryset = Product.objects.filter(brand__user=request.user)
+            return form
+        elif request.user.is_superuser:
+            return super().get_form(request, obj, **kwargs)
+
+    def get_queryset(self, request):
+        if request.user.is_staff and not request.user.is_superuser:
+            return sub_products.objects.filter(product__brand__user=request.user)
+        else:
+            return super().get_queryset(request)
 
 admin.site.register(Favourites)
 admin.site.register(WishList)

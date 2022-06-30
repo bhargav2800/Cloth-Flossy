@@ -11,11 +11,12 @@
                 <div class="product-image">
                     <span class="discount-tag">{{ product.discount }}% off</span>
                     <a href="{% url 'product_details' product.id %}"><img src="{{ product.image.url }}" class="product-thumb" alt=""></a>
-                    <a href="{% url 'add_to_cart' product.id %}"><button class="card-btn">add to cart</button></a>
+                    <a href="{% url 'add_to_wishlist' product.id %}"><button class="card-btn">add to WishList</button></a>
                 </div>
                 <div class="product-info">
                     <h2 class="product-brand">{{ product.brand }}</h2>
-                    <p class="product-short-des">a short line about the cloth..</p>
+                    <h5 class="product-brand">{{ product.name }}</h5>
+                    <p class="product-short-des">{{ product.short_line }}</p>
                     {% if product.discount > 0 %}
                         <span class="price" >Rs. {{ product.discount_price }}</span><span class="actual-price">Rs. {{ product.price }}</span>
                     {% else %}

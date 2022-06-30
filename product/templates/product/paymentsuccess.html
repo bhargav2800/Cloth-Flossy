@@ -1,0 +1,14 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="info" style="color:black;">
+<div class="container" style="text-align:center;">
+<h1>Payment Success</h1>
+<br>
+<h3>Congratulations! You have successfully done the payment. Your order will reach to you in 5 days.</h3>
+<a href="{% url 'home' %}"><h4>Continue Shopping</h4></a>
+</div>
+</div>
+
+{% endblock content %}
