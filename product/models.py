@@ -80,7 +80,6 @@ class Cart(models.Model):
         total = float(self.product.product.discount_price()) * self.added_quantity
         return total
 
-
 class Order(models.Model):
     payment_status_choices = (
         ('SUCCESS', 'SUCCESS'),
