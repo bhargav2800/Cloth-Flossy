@@ -137,6 +137,22 @@ class AddToWishlist(View):
             messages.success(request, msg.wishlist_add)
             return redirect('view_wishlist')
 
+    def post(self, request, product_id):
+        customer_instance = Customer.objects.get(user=request.user)
+        product_instance = Product.objects.get(id=product_id)
+
+        try:
+            WishList.objects.get(customer=customer_instance, product=product_instance)
+            messages.error(request, msg.already_in_cart)
+            return redirect('view_wishlist')
+        except:
+            WishList.objects.create(customer=customer_instance, product=product_instance)
+
+            # WishList_instance = WishList.objects.get(customer=customer_instance, product=product_instance)
+            # WishList_instance.delete()
+            messages.success(request, msg.wishlist_add)
+            return redirect('view_wishlist')
+
 
 def RemoveFromCart(request, product_id):
     customer_instance = Customer.objects.get(user=request.user)
