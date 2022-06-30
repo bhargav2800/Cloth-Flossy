@@ -26,7 +26,7 @@ def register_customer(request):
         form_u = MyUserUpdateForm_customer(request.POST)
         if form_c.is_valid() and form_u.is_valid():
             user_c = form_c.save(commit=False)  # We done this because We need to clean data and we get that user object...
-            user_c.username = user_c.username.lower()
+            # user_c.username = user_c.username.lower()
             user_u = form_u.save(commit=False)
             user_u.user = user_c
             user_u.email = user_c.email
@@ -44,7 +44,7 @@ def register_customer(request):
                 for i in form_u.errors.as_data():
                     messages.error(request,form_u.errors.as_data()[i][0].message)
             else:
-                print("Some Internal issue")
+                messages.error(request, "Some Internal issue")
 
             # messages.error(request, form_u.brand_name.errors)
             return redirect('register-user')
@@ -61,7 +61,7 @@ def register_brand(request):
         form_u = MyBrandUpdateForm_Brand(request.POST)
         if form_c.is_valid() and form_u.is_valid():
             user_c = form_c.save(commit=False)  # We done this because We need to clean data and we get that user object...
-            user_c.username = user_c.username.lower()
+            # user_c.username = user_c.username.lower()
             user_c.is_staff = True
 
             user_u = form_u.save(commit=False)
@@ -82,7 +82,7 @@ def register_brand(request):
                 for i in form_u.errors.as_data():
                     messages.error(request,form_u.errors.as_data()[i][0].message)
             else:
-                print("Some Internal issue")
+                messages.error(request, "Some Internal issue")
 
             return redirect('register-brand')
 
@@ -147,11 +147,10 @@ def user_profile(request):
             return redirect('user-profile')
         else:
             if form_u.errors:
-                print(form_u.errors.as_json)
                 for i in form_u.errors.as_data():
                     messages.error(request,form_u.errors.as_data()[i][0].message)
             else:
-                print("Some Internal issue")
+                messages.error(request, "Some Internal issue")
             return redirect('user-profile')
 
     return render(request, 'webstore/user_profile.html', {'form_u':form_u,'brands_lst':brands_lst,'brands_fav':brands_fav,'profile_url':current_user_info.avatar.url})
