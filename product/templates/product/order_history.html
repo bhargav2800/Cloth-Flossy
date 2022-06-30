@@ -1,0 +1,79 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="h-100 gradient-custom">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card" style="border-radius: 10px;">
+                    <div class="card-header px-4 py-5">
+                        <h5 class="text-muted mb-0">Thanks for your Orders, <span style="color: #a8729a;">{{ orders.first.customer.name }}</span>!</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0" style="color: #a8729a;"> Your Orders :: </p>
+                        </div>
+                        <div class="card shadow-0 border mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small"><strong>Order Id</strong></p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0">Order Date</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">Payment Method</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">Payment Status</p>
+                                    </div>
+                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">Total Items</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">Total Amount</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for order in orders %}
+                        <div class="card shadow-0 border mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small"><strong>{{ order.order_id }}</strong></p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0">{{ order.order_date }}</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">{{ order.payment_method }}</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">{{ order.payment_status }}</p>
+                                    </div>
+                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">{{ order.invoice_set.all|length }}</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">{{ order.total_amount }}</p>
+                                    </div>
+                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                        <a href="{% url 'ViewOrderDetails' order.id %}"><p class="text-muted mb-0 small">More Details</p></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

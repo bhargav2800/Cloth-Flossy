@@ -29,26 +29,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'faviorite_section' %}">FAVORITE BRANDS</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                        >
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider"/>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
                 </ul>
 
                 <form class="d-flex" method="GET" action="{% url 'searched_product' %}">
@@ -67,14 +47,14 @@
                             <a
                                     class="nav-link dropdown-toggle"
                                     href="#"
-                                    id="navbarDropdown"
+                                    id="navbarDropdown1"
                                     role="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                             >
                                 Filter
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 235px;">
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1" style="width: 235px;">
                                     <div class="card">
                                         <article class="filter-group">
                                             <header class="card-header">
@@ -82,11 +62,11 @@
                                             </header>
                                             <div class="card-body">
                                                 <ul class="list-menu">
-                                                    <li><a href="{% url 'product_page' 'kurtas' %}">Kurtas </a></li>
-                                                    <li><a href="{% url 'product_page' 'traditional' %}">Traditional </a></li>
-                                                    <li><a href="{% url 'product_page' 'saree' %}">Sarees </a></li>
-                                                    <li><a href="{% url 'product_page' 'bottomwear' %}">Bottomwear </a></li>
-                                                    <li><a href="{% url 'product_page' 'upperwear' %}">Upperwear </a></li>
+                                                    <li><a href="{% url 'product_page' 'kurtas' %}" style="text-decoration: none; color: black">Kurtas </a></li>
+                                                    <li><a href="{% url 'product_page' 'traditional' %}" style="text-decoration: none; color: black">Traditional </a></li>
+                                                    <li><a href="{% url 'product_page' 'saree' %}" style="text-decoration: none; color: black">Sarees </a></li>
+                                                    <li><a href="{% url 'product_page' 'bottomwear' %}" style="text-decoration: none; color: black">Bottomwear </a></li>
+                                                    <li><a href="{% url 'product_page' 'upperwear' %}" style="text-decoration: none; color: black">Upperwear </a></li>
                                                 </ul>
 
                                             </div> <!-- card-body.// -->
@@ -111,14 +91,14 @@
                                                 </div> <!-- form-row.// -->
                                         </div><!-- card-body.// -->
                                         </article> <!-- filter-group .// -->
-                                        <article class="filter-group">
+                                        {% comment %} <article class="filter-group">
                                             <header class="card-header">
-                                                <h6 class="title">Sizes </h6>
+                                                <h6 class="title">Brands </h6>
                                             </header>
                                             <div class="card-body">
                                                     <label class="checkbox-btn">
                                                         <input type="checkbox" name="size_checks" value="XS">
-                                                        <span class="btn btn-light" style="width: 50px;"> XS </span>
+                                                        <span class="btn btn-light" style="width: 50px;">  </span>
                                                     </label>
 
                                                     <label class="checkbox-btn">
@@ -147,7 +127,7 @@
                                                     </label>
 
                                             </div><!-- card-body.// -->
-                                        </article> <!-- filter-group .// -->
+                                        </article> <!-- filter-group .// --> {% endcomment %}
                                         <button type="submit" class="btn btn-block btn-primary">Apply</button>
                                         </form>
                                     </div> <!-- card.// -->
@@ -166,6 +146,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'ViewOrders' %}">Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'logout-user' %}">Logout</a></li>
                             </ul>
                         </li>
