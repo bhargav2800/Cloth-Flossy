@@ -352,15 +352,16 @@ def RenderToPdf(template_src, context_dict={}):
 
 
 class GenerateInvoice(View):
-    def get(request, order_id):
+    def get(self, request, order_id):
         order = Order.objects.get(order_id=order_id, customer__user=request.user)
         data = {'order_id': order.order_id, 'transaction_id': order.razorpay_payment_id,
                 'user_email': order.customer.email, 'date': str(order.order_date), 'name': order.customer.name,
                 'order': order, 'amount': order.total_amount, 'payment_method': order.payment_method,
                 'payment_status': order.payment_status, }
         pdf = RenderToPdf('product/invoice.html', data)
+        # return HttpResponse(pdf, content_type='application/pdf')
 
-        # force download
+        # # force download
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "Invoice_%s.pdf" % (data['order_id'])
