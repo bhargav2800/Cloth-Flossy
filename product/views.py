@@ -16,6 +16,7 @@ import razorpay
 from io import BytesIO
 from xhtml2pdf import pisa
 from . import messages as msg
+from datetime import datetime
 
 
 # Create your views here.
@@ -322,7 +323,7 @@ class FilterProduct(View):
     def get(self, request):
         min_price_range = request.GET.get('min_price_range') if request.GET.get('min_price_range') != '' else 0
         max_price_range = request.GET.get('max_price_range') if request.GET.get('max_price_range') != '' else \
-            Product.objects.order_by('-price').values_list('price', flat=True)[0]
+        Product.objects.order_by('-price').values_list('price', flat=True)[0]
         checked_brands = request.GET.getlist('size_checks')
         products = Product.objects.filter(price__gte=float(min_price_range), price__lte=float(max_price_range))
         # products |= Product.objects.filter(product_size__in = checked_brands).distinct('name')
@@ -369,3 +370,38 @@ class GenerateInvoice(View):
             response['Content-Disposition'] = content
             return response
         return HttpResponse("Not found")
+
+
+class ReplaceReturn(View):
+    def get(self,request, pid, purpose):
+        if purpose == 'return':
+            return render(request, 'product/return.html', {})
+        else:
+            product_instance = Invoice.objects.get(id=pid).product
+            return render(request, 'product/replace.html', {'product':Product.objects.get(id=product_instance.product.id)})
+
+    def post(self, request, pid, purpose):
+        if purpose == 'return':
+            product_obj = Invoice.objects.get(id=pid)
+            product_obj.returned_status = True
+            product_obj.returned_date = datetime.now()
+            product_obj.returned_reason = request.POST.get('return_tab')
+            product_obj.save()
+            return redirect('ViewOrders')
+        else:
+            product_obj = Invoice.objects.get(id=pid)
+            product_obj.replaced_status = True
+            product_obj.replaced_date = datetime.now()
+            product_obj.replacement_reason = request.POST.get('return_tab')
+            product_obj.replace_product_size = request.POST.get('size_dropdown')
+            product_obj.replace_product_color = request.POST.get('color_dropdown')
+            product_obj.save()
+            return redirect('ViewOrders')
+
+
+class ReplaceReturnStatus(View):
+    def get(self, request, pid, purpose):
+        if purpose == 'return':
+            return render(request, 'product/returnstatus.html', {'product': Invoice.objects.get(id=pid)})
+        else:
+            return render(request, 'product/replacestatus.html', {'product': Invoice.objects.get(id=pid)})

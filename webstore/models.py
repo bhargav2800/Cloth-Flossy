@@ -31,17 +31,6 @@ class Customer(models.Model):
     email = models.EmailField(max_length=50, unique=True)
     mobile_no = PhoneNumberField(unique=True)
     avatar = models.ImageField(null=True, default="avatar.svg", upload_to='profile_picture')
-    # fav_brands = models.ManyToManyField(Brand, related_name='fav_brands', through='WishList' ,blank=True)
-    # wishlist = models.ManyToManyField(Product, related_name='wishlist',through='Favourites' ,blank=True)
 
     def __str__(self):
         return self.email
-
-    # def save(self, *args, **kwargs):
-    #     super(Customer, self).save(*args, **kwargs)
-
-    #     img = Image.open(self.avatar.path)
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.avatar.path)

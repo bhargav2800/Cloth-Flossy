@@ -109,6 +109,17 @@ class Invoice(models.Model):
         ('Shipped', 'Shipped'),
         ('Delivered', 'Delivered')
     )
+    status_refund = (
+        ('Not Initiated', 'Not Initiated'),
+        ('Initiated', 'Initiated'),
+        ('Done', 'Done')
+    )
+    status_pickup = (
+        ('Will Soon Pick Up the Product', 'Will Soon Pick Up the Product'),
+        ('Pick Up Done', 'Pick Up Done')
+    )
+
+    # Order
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(sub_products, on_delete=models.SET_DEFAULT, default=0)
     product_quantity = models.IntegerField()
@@ -119,6 +130,27 @@ class Invoice(models.Model):
     product_size = models.CharField(max_length=10)
     product_color = models.CharField(max_length=15)
     order_status = models.CharField(max_length=20, choices=status_choices, default='Not Packed')
+    order_delivery_date = models.DateTimeField(blank=True, null=True)
+
+    # returned Product
+    returned_status = models.BooleanField(default=False)
+    returned_date = models.DateTimeField(blank=True, null=True)
+    returned_reason = models.TextField(blank=True)
+    pick_up_date = models.DateTimeField(blank=True, null=True)
+    pick_up_status = models.CharField(max_length=30, choices=status_pickup, default='Will Soon Pick Up the Product')
+    refund_status = models.CharField(max_length=20, choices=status_refund, default='Not Initiated')
+
+
+    # Replaced Product
+    replaced_status = models.BooleanField(default=False)
+    replaced_date = models.DateTimeField(blank=True, null=True)
+    replacement_reason = models.TextField(blank=True)
+    replace_pickup_date = models.DateTimeField(blank=True, null=True)
+    replace_pickup_status = models.CharField(max_length=30, choices=status_pickup, default='Will Soon Pick Up the Product')
+    replace_delivery_date = models.DateTimeField(blank=True, null=True)
+    replace_delivery_status = models.CharField(max_length=20, choices=status_choices, default='Not Packed')
+    replace_product_size = models.CharField(max_length=10, blank=True)
+    replace_product_color = models.CharField(max_length=15, blank=True)
 
 class Favourites(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

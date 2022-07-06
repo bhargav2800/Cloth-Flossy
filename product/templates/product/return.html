@@ -1,0 +1,16 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="container" style="margin-top:200px; text-align:center;">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-outline">
+      <label class="form-label" for="textAreaExample"> Why You Want to Replace/Return the Product  ??? </label>
+      <textarea class="form-control" id="textAreaExample" rows="4" placeholder="Share Your Review Here ..." name="return_tab"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">submit</button>
+  </form>
+</section>
+
+{% endblock content %}

@@ -21,6 +21,8 @@ urlpatterns = [
     path('filtered_item/', views.FilterProduct.as_view(), name="filter_product"),
     path('paymentHandler/', views.paymenthandler, name="PaytmentHandler"),
     path('view_orders/', views.ViewOrders.as_view(), name="ViewOrders"),
-    path('view_order_details/<int:order_id>', views.ViewOrderDetails.as_view(), name="ViewOrderDetails"),
-    path('invoice/<str:order_id>', views.GenerateInvoice.as_view(), name="GenerateInvoice"),
+    path('view_order_details/<int:order_id>/', views.ViewOrderDetails.as_view(), name="ViewOrderDetails"),
+    path('invoice/<str:order_id>/', views.GenerateInvoice.as_view(), name="GenerateInvoice"),
+    path('invoice/<int:pid>/<str:purpose>', views.ReplaceReturn.as_view(), name="ReplaceReturn"),
+    path('invoice/ReplaceReturnStatus/<int:pid>/<str:purpose>', views.ReplaceReturnStatus.as_view(), name="ReplaceReturnStatus"),
 ]

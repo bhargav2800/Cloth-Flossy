@@ -20,6 +20,87 @@
             <div class="card shadow-0 border mb-4">
               <div class="card-body">
                 <div class="row">
+
+
+                  {% if product.returned_status %}
+                  <div class="col-md-2">
+                    <img src="{{ product.product.product.image.url }}"
+                      class="img-fluid" alt="Image Not Found">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{ product.product.product.name }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Color : {{ product.product.color }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Size : {{ product.product.size }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Que :  {{ product.product_quantity }}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Rs. {{ product.buy_price }}</p>
+                  </div>
+                  <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                    <a class="btn btn-primary" style="width:250px;" href="{% url 'ReplaceReturnStatus' product.id 'return' %}"> View Returned Status </a>
+                  </div>
+
+
+                  {% elif product.replaced_status %}
+                  <div class="col-md-2">
+                    <img src="{{ product.product.product.image.url }}"
+                      class="img-fluid" alt="Image Not Found">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{ product.product.product.name }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Color : {{ product.product.color }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Size : {{ product.product.size }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Que :  {{ product.product_quantity }}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Rs. {{ product.buy_price }}</p>
+                  </div>
+                  <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                    <a class="btn btn-primary" style="width:250px;" href="{% url 'ReplaceReturnStatus' product.id 'replace' %}"> View Replaced Status </a>
+                  </div>
+
+
+                  {% elif product.order_status == 'Delivered' %}
+                  <div class="col-md-2">
+                    <img src="{{ product.product.product.image.url }}"
+                      class="img-fluid" alt="Image Not Found">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{ product.product.product.name }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Color : {{ product.product.color }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Size : {{ product.product.size }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Que :  {{ product.product_quantity }}</p>
+                  </div>
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Rs. {{ product.buy_price }}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <a class="btn btn-primary" style="width:85px;" href="{% url 'ReplaceReturn' product.id 'replace' %}"> Replace </a>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <a class="btn btn-primary" href="{% url 'ReplaceReturn' product.id 'return' %}"> Return </a>
+                  </div>
+
+
+                  {% else %}
                   <div class="col-md-2">
                     <img src="{{ product.product.product.image.url }}"
                       class="img-fluid" alt="Phone">
@@ -39,6 +120,9 @@
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     <p class="text-muted mb-0 small">Rs. {{ product.buy_price }}</p>
                   </div>
+
+                  {% endif %}
+
                 </div>
                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
                 <div class="row d-flex align-items-center">

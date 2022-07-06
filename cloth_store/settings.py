@@ -29,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRETE_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['cloth-flossy.herokuapp.com','127.0.0.1:8000','localhost']
+ALLOWED_HOSTS = ['cloth-flossy.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = ['product.apps.ProductConfig', 'webstore.apps.WebstoreConfig', 'django.contrib.admin',

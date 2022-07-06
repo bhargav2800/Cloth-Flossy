@@ -1,0 +1,78 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+<section class="vh-100" style="background-color: #8c9eff;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-stepper text-black" style="border-radius: 16px;">
+
+          <div class="card-body p-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+              <div>
+                <h5 class="mb-0">INVOICE <span class="text-primary font-weight-bold"></span></h5>
+              </div>
+              <div class="text-end">
+                <p class="mb-0">Returned Date :  <span class="font-weight-bold">{{ product.returned_date }}</span></p>
+                <p class="mb-0">Expected Pickup Date:  <span class="font-weight-bold">{{ product.pick_up_date }}</span></p>
+              </div>
+            </div>
+            <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Pickup Status</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: {% if product.pick_up_status == 'Will Soon Pick Up the Product' %}
+                        25%
+                        {% elif product.pick_up_status == 'Pick Up Done' %}
+                        100%
+                        {% endif %}; border-radius: 16px; background-color: #a8729a;" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Will Soon Pick Up the Product</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Pick Up Done</p>
+                    </div>
+                  </div>
+                </div>
+
+              <br>
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Refund Status</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: {% if product.refund_status == 'Not Initiated' %}
+                        15%
+                        {% elif product.refund_status == 'Initiated' %}
+                        40%
+                        {% elif product.refund_status == 'Done' %}
+                        100%
+                        {% endif %}; border-radius: 16px; background-color: #a8729a;" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Not Initiated</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Initiated</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Done</p>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

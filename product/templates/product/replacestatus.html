@@ -1,0 +1,96 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
+<section class="vh-100" style="background-color: #8c9eff;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-stepper text-black" style="border-radius: 16px;">
+
+          <div class="card-body p-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+              <div>
+                <h5 class="mb-0">INVOICE <span class="text-primary font-weight-bold">{{ product. }}</span></h5>
+              </div>
+              <div class="text-end">
+                <p class="mb-0">Replacement Date :  <span class="font-weight-bold">{{ product.replaced_date }}</span></p>
+                <p class="mb-0">Expected Pickup Date:  <span class="font-weight-bold">{{ product.replace_pickup_date }}</span></p>
+                <p class="mb-0">Expected Arrival: <span>{{ product.replace_delivery_date }}</span></p>
+              </div>
+            </div>
+            <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Pickup Status</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: {% if product.pick_up_status == 'Will Soon Pick Up the Product' %}
+                        25%
+                        {% elif product.pick_up_status == 'Pick Up Done' %}
+                        100%
+                        {% endif %}; border-radius: 16px; background-color: #a8729a;" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Will Soon Pick Up the Product</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Pick Up Done</p>
+                    </div>
+                  </div>
+                </div>
+
+
+              <br>
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Delivery Status</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: {% if product.replace_delivery_status == 'Not Packed' %}
+                        15%
+                        {% elif product.replace_delivery_status == 'Ready For Shipment' %}
+                        40%
+                        {% elif product.replace_delivery_status == 'Shipped' %}
+                        70%
+                        {% elif product.replace_delivery_status == 'Delivered' %}
+                        100%
+                        {% endif %}; border-radius: 16px; background-color: #a8729a;" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Not Packed</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Ready For Shipment</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Shipped</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small"></p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Replaced Color : {{ product.replace_product_color }}</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Replaced size : {{ product.replace_product_size }}</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5"></p>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
