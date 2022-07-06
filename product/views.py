@@ -21,12 +21,35 @@ from datetime import datetime
 
 # Create your views here.
 class Home(ListView):
+    """
+        Return the Home Page Of Website.
+
+        **Context**
+
+        ``best_selling``
+            list of Top 10 Selling Products
+
+        **Template:**
+
+        :template:`product/home.html`,
+    """
+
     model = Product
     template_name = 'product/home.html'
     extra_context = {'best_selling': Product.objects.order_by('no_of_purchases')[:10]}
 
 
 class ProductDetails(LoginRequiredMixin, DetailView):
+    """
+        Display Product Detail page and Add Submitted reviews for that Product in :model:`product.Reviews`
+
+        **Context**
+
+        **Template:**
+
+        :template:`product/home.html`,
+    """
+
     model = Product
     template_name = 'product/product_detail.html'
 
@@ -39,6 +62,18 @@ class ProductDetails(LoginRequiredMixin, DetailView):
 
 
 class GetSize(View):
+    """
+        Returns the Colour wise available sizes for perticular Product.
+
+        **Context**
+
+        ``color_wise_size``
+            Colour wise available sizes for perticular Product.
+
+        **Template:**
+
+    """
+
     def get(self, request, *args, **kwargs):
         color = request.GET['color']
         p_id = request.GET['p_id']
@@ -47,6 +82,19 @@ class GetSize(View):
 
 
 class ProductPage(ListView):
+    """
+        Fatch the searched or filtered Products
+
+        **Context**
+
+        ``products``
+            list of searched or filtered Products.
+
+        **Template:**
+
+        :template:`product/filter_items_page.html`,
+    """
+
     model = Product
     template_name = 'product/filter_items_page.html'
     context_object_name = 'products'
@@ -61,6 +109,20 @@ class ProductPage(ListView):
 
 
 class UpdateQuantity(View):
+    """
+        Updates the quantity of product in :model:`product.Cart`
+
+        **Context**
+
+        ``total``
+            total price of Product (Product_price * Quantity)
+
+        ``product_message``
+            Message for like Product Quantity is available or not ...
+
+        **Template:**
+    """
+
     def post(self, request):
         pid = request.POST['pid']
         u_qua = request.POST['quantity']
@@ -80,6 +142,19 @@ class UpdateQuantity(View):
 
 
 class ViewCart(ListView):
+    """
+        Display the Cart Products for Current User
+
+        **Context**
+
+        ``product``
+             List of Products added by user to cart.
+
+        **Template:**
+
+        :template:`product/cart.html`,
+    """
+
     model = Cart
     template_name = 'product/cart.html'
     context_object_name = 'products'
@@ -90,6 +165,16 @@ class ViewCart(ListView):
 
 
 class ViewWishlist(ListView):
+    """
+        Display the Wishlist Products for Current User
+
+        **Context**
+
+        **Template:**
+
+        :template:`product/wishlist.html`,
+    """
+
     model = WishList
     template_name = 'product/wishlist.html'
     context_object_name = 'products'
@@ -100,6 +185,14 @@ class ViewWishlist(ListView):
 
 
 class AddToCart(View):
+    """
+        Add product in :model:`product.Cart`
+
+        **Context**
+
+        **Template:**
+    """
+
     def post(self, request, product_id):
         # print(self.request.POST.)
         customer_instance = Customer.objects.get(user=request.user)
@@ -122,6 +215,15 @@ class AddToCart(View):
 
 
 class AddToWishlist(View):
+    """
+        Add product in :model:`product.WishList` And Add product in :model:'product.Cart'  from Wishlist
+
+        **Context**
+
+        **Template:**
+
+        :template:`product/wishlist.html`,
+    """
     def get(self, request, product_id):
         customer_instance = Customer.objects.get(user=request.user)
         product_instance = Product.objects.get(id=product_id)
@@ -156,6 +258,14 @@ class AddToWishlist(View):
 
 
 def RemoveFromCart(request, product_id):
+    """
+        Remove product From :model:`product.Cart`
+
+        **Context**
+
+        **Template:**
+
+    """
     customer_instance = Customer.objects.get(user=request.user)
     Cart_product_instance = Cart.objects.get(customer=customer_instance, id=product_id)
     Cart_product_instance.delete()
@@ -164,6 +274,14 @@ def RemoveFromCart(request, product_id):
 
 
 def RemoveFromWishlist(request, product_id):
+    """
+        Remove product From :model:`product.Wishlist`
+
+        **Context**
+
+        **Template:**
+
+    """
     customer_instance = Customer.objects.get(user=request.user)
     WishList_product_instance = WishList.objects.get(customer=customer_instance, product=product_id)
     WishList_product_instance.delete()
@@ -175,6 +293,19 @@ client = razorpay.Client(auth=(os.environ.get('RAZORPAY_API_KEY'), os.environ.ge
 
 
 class ConfirmOrder(CreateView):
+    """
+        Display Confirm Order Page with Orderd Items
+
+        **Context**
+
+        ``products``
+            List of Cart Products
+
+        **Template:**
+
+        :template: 'product/paymentsummary.html'
+    """
+
     model = Order
     template_name = 'product/confirm_order.html'
     form_class = confirm_order_form
@@ -256,6 +387,18 @@ class ConfirmOrder(CreateView):
 
 @csrf_exempt
 def paymenthandler(request):
+    """
+        handles RazorPay Payment and store the Payment RazorPay details in :model:`product.invoice`
+
+        **Context**
+
+        **Template:**
+
+        :template: `product/paymentfailed.html`,
+        :template: `product/paymentsuccess.html`.
+    """
+
+
     if request.method == "POST":
         try:
             payment_id = request.POST.get('razorpay_payment_id', '')
@@ -295,6 +438,19 @@ def paymenthandler(request):
 
 
 class FavioriteBrands(ListView):
+    """
+        Displays Products Of Favorite brands Of current user
+
+        **Context**
+
+        ``products``
+            List of Products if Favorite Brands
+
+        **Template:**
+
+        :template: `product/filter_items_page.html`.
+    """
+
     model = Product
     template_name = 'product/filter_items_page.html'
     context_object_name = 'products'
@@ -311,6 +467,19 @@ class FavioriteBrands(ListView):
 
 
 class SearchProduct(View):
+    """
+        Displays Products According to search result.
+
+        **Context**
+
+        ``products``
+            Searched Result Products
+
+        **Template:**
+
+        :template: `product/filter_items_page.html`.
+    """
+
     def get(self, request):
         q = request.GET.get('q') if request.GET.get('q') != None else ''
         products = Product.objects.filter(
@@ -320,6 +489,19 @@ class SearchProduct(View):
 
 
 class FilterProduct(View):
+    """
+        Displays Products According to chosen filters.
+
+        **Context**
+
+        ``products``
+            List Products that match the chose filters
+
+        **Template:**
+
+        :template: `product/filter_items_page.html`.
+    """
+
     def get(self, request):
         min_price_range = request.GET.get('min_price_range') if request.GET.get('min_price_range') != '' else 0
         max_price_range = request.GET.get('max_price_range') if request.GET.get('max_price_range') != '' else \
@@ -331,18 +513,48 @@ class FilterProduct(View):
 
 
 class ViewOrders(ListView):
+    """
+        Displays the user's Order History
+
+        **Context**
+
+        ``orders``
+            List User's Order
+
+        **Template:**
+
+        :template: `product/order_history.html`.
+    """
+
     def get(self, request):
         Orders = Order.objects.filter(customer__user=request.user)
         return render(request, 'product/order_history.html', {'orders': Orders})
 
 
 class ViewOrderDetails(ListView):
+    """
+        Displays the products included in perticular order
+
+        **Context**
+
+        ``products``
+            List of product of perticular order
+
+        **Template:**
+
+        :template: `product/order_history_details.html`.
+    """
+
     def get(self, request, order_id):
         Products = Invoice.objects.filter(order__id=order_id)
         return render(request, 'product/order_history_details.html', {'products': Products})
 
 
 def RenderToPdf(template_src, context_dict={}):
+    """
+        Generates the PDF
+    """
+
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()
@@ -353,6 +565,18 @@ def RenderToPdf(template_src, context_dict={}):
 
 
 class GenerateInvoice(View):
+    """
+        Generats the invoice for user order and download it for user
+
+        **Context**
+
+        ``data``
+            Contains the Order Info
+
+        **Template:**
+
+        :template: `product/invoice.html`.
+    """
     def get(self, request, order_id):
         order = Order.objects.get(order_id=order_id, customer__user=request.user)
         data = {'order_id': order.order_id, 'transaction_id': order.razorpay_payment_id,
@@ -373,6 +597,19 @@ class GenerateInvoice(View):
 
 
 class ReplaceReturn(View):
+    """
+        Display the Return and Replace Product options and take action for return or replace product.
+
+        **Context**
+
+        ``product``
+            Product info that is applied for return/replace
+
+        **Template:**
+
+        :template: `product/order_history.html`.
+    """
+
     def get(self,request, pid, purpose):
         if purpose == 'return':
             return render(request, 'product/return.html', {})
@@ -400,6 +637,18 @@ class ReplaceReturn(View):
 
 
 class ReplaceReturnStatus(View):
+    """
+        Display the Return or Replace status for Product.
+
+        **Context**
+
+        ``product``
+            Product info that is applied for return/replace
+
+        **Template:**
+        :template: `product/returnstatus.html`.
+    """
+
     def get(self, request, pid, purpose):
         if purpose == 'return':
             return render(request, 'product/returnstatus.html', {'product': Invoice.objects.get(id=pid)})

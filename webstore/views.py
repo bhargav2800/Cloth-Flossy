@@ -18,6 +18,22 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
 def register_customer(request):
+    """
+    Display the registration Page and Register the customer.
+
+    **Context**
+
+    ``form_c``
+        An Instance Form Of :model:`webstore.User`
+
+    ``form_u``
+        An Instance Form Of :model:`webstore.Customer`
+
+    **Template:**
+
+    :template:`webstore/register_customer.html`, ``
+    """
+
     form_c = MyUserCreationForm()
     form_u = MyUserUpdateForm_customer()
 
@@ -53,6 +69,22 @@ def register_customer(request):
 
 
 def register_brand(request):
+    """
+        Display the registration Page For Brand and Register the brand.
+
+        **Context**
+
+        ``form_c``
+            An Instance Form Of :model:`webstore.User`
+
+        ``form_u``
+            An Instance Form Of :model:`product.Brand.`
+
+        **Template:**
+
+        :template:`webstore/register_brand.html`
+        """
+
     form_c = MyUserCreationForm()
     form_u = MyBrandUpdateForm_Brand()
 
@@ -90,9 +122,15 @@ def register_brand(request):
 
 
 def loginPage(request):
-    # if request.user.is_authenticated:
-    #     # return render(request, 'home')
-    #     return HttpResponse("You Are On Home Page")
+    """
+        Display the login Page For Customer and Allow the user to login after Ck=heck Credintials.
+
+        **Context**
+
+        **Template:**
+
+        :template:`webstore/login_customer.html`
+    """
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -124,6 +162,28 @@ def logoutUser(request):
 
 @login_required(login_url='login-user')
 def user_profile(request):
+    """
+        Display the User Profile and Update the User Profile.
+
+        **Context**
+
+        ``form_u``
+            An Instance Form Of :model:`webstore.Customer` for Update User Profile
+
+        ``brands_lst``
+            List of Available Brands
+
+        ``brands_fav``
+            List of Current User's Favorite Brands
+
+        ``profile_url``
+            Url of Current user's Profile Picture
+
+        **Template:**
+
+        :template:`webstore/user_profile.html`,
+    """
+
     current_user = request.user
     current_user_info = Customer.objects.filter(user=current_user).first()
     form_u = UserProfile_Form(instance=current_user_info)
@@ -156,6 +216,16 @@ def user_profile(request):
     return render(request, 'webstore/user_profile.html', {'form_u':form_u,'brands_lst':brands_lst,'brands_fav':brands_fav,'profile_url':current_user_info.avatar.url})
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    """
+        Change the Current user's Password.
+
+        **Context**
+
+        **Template:**
+
+        :template:`webstore/change_password.html`
+    """
+
     template_name = 'webstore/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('user-profile')
