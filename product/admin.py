@@ -2,9 +2,11 @@ from django import forms
 from django.contrib import admin
 from django.forms import modelform_factory
 
-from .models import Brand,Category,Product,Reviews,Cart,Order,Invoice, Favourites, WishList, sub_products
+from .models import Brand,Category,Product,Reviews,Cart,Order,Invoice, Favourites, WishList, sub_products,size,Colour
 
 # Register your models here.
+admin.site.register(size)
+admin.site.register(Colour)
 admin.site.register(Category)
 admin.site.register(Reviews)
 admin.site.register(Cart)

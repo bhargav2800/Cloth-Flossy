@@ -130,7 +130,6 @@ class UpdateQuantity(View):
         cart_obj.added_quantity = int(u_qua)
         cart_obj.save()
         product_quantity = sub_products.objects.get(id=pid).quantity
-        print(product_quantity)
         if product_quantity == 0:
             product_message = "Out Of Stock"
         elif int(u_qua) > product_quantity:
@@ -203,13 +202,10 @@ class AddToCart(View):
 
         try:
             Cart.objects.get(customer=customer_instance, product=product_instance)
-            messages.error(request, )
+            messages.error(request, msg.already_in_cart)
             return redirect('home')
         except:
             Cart.objects.create(customer=customer_instance, product=product_instance, added_quantity=1)
-
-            # WishList_instance = WishList.objects.get(customer=customer_instance, product=product_instance)
-            # WishList_instance.delete()
             messages.success(request, msg.cart_Add)
             return redirect('home')
 
@@ -291,7 +287,6 @@ def RemoveFromWishlist(request, product_id):
 
 client = razorpay.Client(auth=(os.environ.get('RAZORPAY_API_KEY'), os.environ.get('RAZORPAY_API_SECRET_KEY')))
 
-
 class ConfirmOrder(CreateView):
     """
         Display Confirm Order Page with Orderd Items
@@ -370,7 +365,6 @@ class ConfirmOrder(CreateView):
                              payment_capture='0'))
                     my_form.razorpay_order_id = razorpay_order['id']
                     my_form.save()
-
                     return render(request, 'product/paymentsummary.html',
                                   {'order': my_form, 'order_id': razorpay_order['id'], 'orderId': my_form.order_id,
                                    'final_price': order_amount,
@@ -547,6 +541,7 @@ class ViewOrderDetails(ListView):
 
     def get(self, request, order_id):
         Products = Invoice.objects.filter(order__id=order_id)
+        print(order_id)
         return render(request, 'product/order_history_details.html', {'products': Products})
 
 

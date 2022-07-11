@@ -25,6 +25,14 @@ gender_choice = (
 
 
 # Create your models here.
+
+class Colour(models.Model):
+    colour = models.CharField(max_length=15)
+
+class size(models.Model):
+    size = models.CharField(max_length=10)
+
+
 class Brand(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     brand_name = models.CharField(max_length=30, unique=True)
@@ -59,8 +67,8 @@ class Product(models.Model):
 class sub_products(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    size = models.CharField(max_length=10, choices=size_choices, default='XL')
-    color = models.CharField(max_length=10, choices=color_choice, default='red')
+    size = models.CharField(max_length=10, choices=size_choices ,default='XL')
+    color = models.CharField(max_length=10, choices=color_choice ,default='red')
     description = models.TextField()
 
 

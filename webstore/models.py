@@ -27,7 +27,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     age = models.IntegerField()
-    gender = models.CharField(max_length=10, choices=gender_choices, default='F')
+    gender = models.CharField(max_length=10, choices=gender_choices, default='Female')
     email = models.EmailField(max_length=50, unique=True)
     mobile_no = PhoneNumberField(unique=True)
     avatar = models.ImageField(null=True, default="avatar.svg", upload_to='profile_picture')
