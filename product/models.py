@@ -1,3 +1,6 @@
+import datetime
+from django.utils import timezone
+
 from django.contrib import admin
 from django.db import models
 from webstore.models import User, Customer
@@ -140,6 +143,11 @@ class Invoice(models.Model):
     order_status = models.CharField(max_length=20, choices=status_choices, default='Not Packed')
     order_delivery_date = models.DateTimeField(blank=True, null=True)
 
+    def return_available(self):
+        return (self.order_delivery_date + datetime.timedelta(days=5)) > timezone.now()
+
+
+
     # returned Product
     returned_status = models.BooleanField(default=False)
     returned_date = models.DateTimeField(blank=True, null=True)
@@ -159,6 +167,19 @@ class Invoice(models.Model):
     replace_delivery_status = models.CharField(max_length=20, choices=status_choices, default='Not Packed')
     replace_product_size = models.CharField(max_length=10, blank=True)
     replace_product_color = models.CharField(max_length=15, blank=True)
+
+
+    def __str__(self):
+        if self.order_status == 'Delivered':
+            if self.returned_status:
+                return f"{self.order}  ---  Requested for Return"
+            elif self.replaced_status:
+                if self.returned_status:
+                    return f"{self.order}  ---  Requested for Replacement"
+            else:
+                return f"{self.order}  ---  Delivered"
+        else:
+            return f"{self.order}   ---  {self.order_status}"
 
 class Favourites(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

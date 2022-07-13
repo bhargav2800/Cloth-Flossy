@@ -17,6 +17,7 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from . import messages as msg
 from datetime import datetime
+import datetime as datetime1
 
 
 # Create your views here.
@@ -347,13 +348,13 @@ class ConfirmOrder(CreateView):
                     my_form.save()
                     orderid = my_form.id
                     for product in Cart.objects.filter(customer=curr_cust):
-                        Invoice.objects.create(order=my_form, product=product.product,
+                        invoice_instance = Invoice.objects.create(order=my_form, product=product.product,
                                                product_quantity=product.added_quantity,
                                                brand_name=product.product.product.brand,
                                                product_name=product.product.product.name,
                                                buy_price=product.product.product.discount_price(),
                                                product_discount=product.product.product.discount,
-                                               product_size=product.product.size, product_color=product.product.color)
+                                               product_size=product.product.size, product_color=product.product.color, order_delivery_date = datetime.now() + datetime1.timedelta(days=5))
 
                     load_dotenv()
                     # RazorPay Payment
@@ -541,7 +542,6 @@ class ViewOrderDetails(ListView):
 
     def get(self, request, order_id):
         Products = Invoice.objects.filter(order__id=order_id)
-        print(order_id)
         return render(request, 'product/order_history_details.html', {'products': Products})
 
 

@@ -11,7 +11,6 @@ admin.site.register(Category)
 admin.site.register(Reviews)
 admin.site.register(Cart)
 admin.site.register(Order)
-admin.site.register(Invoice)
 
 class Brand_Modify(admin.ModelAdmin):
     fields = ['brand_name','user']
@@ -76,8 +75,20 @@ class ProductSubModify(admin.ModelAdmin):
             return super().get_form(request, obj, **kwargs)
 
     def get_queryset(self, request):
-        if request.user.is_staff and not request.user.is_superuser:
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        elif request.user.is_staff:
             return sub_products.objects.filter(product__brand__user=request.user)
+        else:
+            return super().get_queryset(request)
+
+
+@admin.register(Invoice)
+class Invoice_Modify(admin.ModelAdmin):
+    readonly_fields = ('order','product','product_quantity','brand_name','product_name','buy_price','product_discount','product_size','product_color','returned_status','returned_reason','replaced_status','replacement_reason')
+    def get_queryset(self, request):
+        if request.user.is_staff and not request.user.is_superuser:
+            return Invoice.objects.filter(product__product__brand__user=request.user)
         else:
             return super().get_queryset(request)
 

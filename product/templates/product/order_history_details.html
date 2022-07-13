@@ -47,7 +47,7 @@
                   </div>
 
 
-                  {% elif product.replaced_status %}
+                  {% elif product.replaced_status%}
                   <div class="col-md-2">
                     <img src="{{ product.product.product.image.url }}"
                       class="img-fluid" alt="Image Not Found">
@@ -92,13 +92,15 @@
                   <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
                     <p class="text-muted mb-0 small">Rs. {{ product.buy_price }}</p>
                   </div>
+
+                  {% if product.return_available %}
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     <a class="btn btn-primary" style="width:85px;" href="{% url 'ReplaceReturn' product.id 'replace' %}"> Replace </a>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     <a class="btn btn-primary" href="{% url 'ReplaceReturn' product.id 'return' %}"> Return </a>
                   </div>
-
+                  {% endif %}
 
                   {% else %}
                   <div class="col-md-2">
